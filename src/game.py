@@ -3,7 +3,7 @@ from typing import NoReturn, Optional, Self
 
 import pygame
 
-from util.sprite.spritesheet import Spritesheet
+from src.util.sprite.spritesheet import Spritesheet
 
 
 class Game:
@@ -75,9 +75,3 @@ class Game:
 
             pygame.display.flip()
             self.CLOCK.tick(self.FPS)
-
-def main():
-    Game().run()
-
-if __name__ == '__main__':
-    main()
