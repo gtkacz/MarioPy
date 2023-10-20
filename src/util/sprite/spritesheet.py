@@ -5,7 +5,9 @@ import pygame
 
 
 class Spritesheet:
-    def __init__(self, filename: str, color_key: tuple[int, int, int] = (255, 255, 255)) -> Self:
+    def __init__(self, filename: str, color_key: tuple[int, int, int] = (0, 0, 0)) -> Self:
+        assert filename.endswith('.png'), 'Spritesheet must be a png file.'
+
         self.color_key = color_key
         self.sprite_sheet = pygame.image.load(filename).convert()
         self.meta_data = filename.replace('png', 'json')

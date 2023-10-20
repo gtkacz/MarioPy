@@ -1,0 +1,46 @@
+{
+    "dino": {
+        "standing": {
+            "x": 1338,
+            "y": 2,
+            "width": 88,
+            "height": 94
+        },
+        "running_1": {
+            "x": 1514,
+            "y": 2,
+            "width": 88,
+            "height": 94
+        },
+        "running_2": {
+            "x": 1602,
+            "y": 2,
+            "width": 88,
+            "height": 94
+        },
+        "dead": {
+            "x": 1690,
+            "y": 2,
+            "width": 88,
+            "height": 94
+        },
+        "crouching_1": {
+            "x": 1866,
+            "y": 36,
+            "width": 118,
+            "height": 60
+        },
+        "crouching_2": {
+            "x": 1984,
+            "y": 36,
+            "width": 118,
+            "height": 60
+        },
+        "icon": {
+            "x": 73,
+            "y": 6,
+            "width": 88,
+            "height": 90
+        }
+    }
+}
