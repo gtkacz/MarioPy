@@ -1,123 +1,103 @@
-import pygame,math,random
+import math
+import random
 
-# Sequences:
-# 0 : tire la langue
-# 1 : fait boo
-# 2 : bouche fermée
-# 3 : meurt
+import pygame
+
+
 class Boo(pygame.sprite.Sprite):
+    obstacles = []
+    playing_field = pygame.Rect((0, 0), (0, 0))
 
-	obstacles = list()
-	playfield = pygame.Rect((0,0),(0,0))
+    spritesheet = pygame.image.load("./levels/Sprites/boo.png")
+    sequences = [(0, 2, True, False), (2, 2, True, False),
+                 (4, 2, True, False), (6, 4, False, True)]
 
-	spriteSheet = pygame.image.load("./levels/Sprites/boo.png")
-	sequences = [(0,2,True, False),(2,2,True, False),(4,2,True, False),(6,4,False, True)]
+    def __init__(self, FPS, playing_field, obstacles):
+        pygame.sprite.Sprite.__init__(self)
 
-	# Constructeur de la classe
-	# FPS: le nombre d'images par secondes (pour les animations)
-	# playfield : Rect, La taille du playfield (pour le clipping)
-	# Obstacles : List(Rect), Les obstacles sous la forme d'une liste de Rect pour la détection de collision avec le décor
-	def __init__(self, FPS, playfield, obstacles):
-		pygame.sprite.Sprite.__init__(self)
+        self.spritesheet.convert_alpha()
 
-		self.spriteSheet.convert_alpha()
+        self.image = Boo.spritesheet.subsurface(pygame.Rect(0, 0, 16, 16))
+        self.rect = pygame.Rect(0, 0, 16, 16)
+        self.rect.bottom = 16
 
-		self.image = Boo.spriteSheet.subsurface(pygame.Rect(0,0,16,16))
-		self.rect = pygame.Rect(0,0,16,16)
-		self.rect.bottom = 16
+        self.initialrect = pygame.Rect(0, 0, 16, 16)
+        self.initialrect.bottom = 16
 
-		self.initialrect = pygame.Rect(0,0,16,16)
-		self.initialrect.bottom = 16
+        self.curr_direction = 3
+        self.dead = False
 
-		# Variable qui contient la direction courante du sprite
-		#    8  1  2
-		#    7  0  3
-		#    6  5  4
-		self.directioncourante = 3
-		self.mort = False
+        self.next_num = 1
+        self.img_next = 0
+        self.flip = True
 
-		self.numeroSequence = 1
-		self.numeroImage = 0
-		self.flip = True
+        self.time_dt = 0
+        self.speed = int(round(120/FPS))
 
-		self.deltaTime = 0
-		self.vitesse = int(round(120/FPS))
-			
-		self.playfield = playfield
-		self.obstacles = obstacles
+        self.playing_field = playing_field
+        self.obstacles = obstacles
 
-		self.incangle = 2 # increment d'angle
-		self.angle = random.randint(0,359) # compteur utilisé pour les mouvements
-		self.rayonx = 100 # le rayon du cercle pour le fantome en pixels
-		self.rayony = 50 # le rayon du cercle pour le fantome en pixels
+        self.incangle = 2
+        self.angle = random.randint(0, 359)
+        self.radius_x = 100
+        self.radius_y = 50
 
-	def update(self,time):
-		self.deltaTime = self.deltaTime + time
-		
-		if self.deltaTime>=100:
-			self.deltaTime = 0
+    def update(self, time):
+        self.time_dt = self.time_dt + time
 
-			# on incremente le compteur d'animation
-			self.angle += self.incangle
-			self.angle = self.angle % 360
+        if self.time_dt >= 100:
+            self.time_dt = 0
 
-			# on calcule les offsets sur le cercle
-			incx = math.cos(self.angle*2*3.14/360)*self.rayonx
-			incy = math.sin(self.angle*2*3.14/360)*self.rayony
+            self.angle += self.incangle
+            self.angle = self.angle % 360
 
-			# on met a jour la position en fonction de la direction
-			self.rect = pygame.Rect(self.initialrect.x+incx, self.initialrect.y+incy, 16, 16)
-			if self.angle >0 and self.angle <180 : # on gere la direction du sprite en fonction de l'increment
-				self.flip = True
-			else:
-				self.flip = False
+            incx = math.cos(self.angle*2*3.14/360)*self.radius_x
+            incy = math.sin(self.angle*2*3.14/360)*self.radius_y
 
-			# on calcule l'image à afficher
-			n = Boo.sequences[self.numeroSequence][0]+self.numeroImage
-			self.image = Boo.spriteSheet.subsurface(pygame.Rect(n%20*16,n//20*32,16,16))
-			if self.flip:
-				self.image = pygame.transform.flip(self.image,True,False)
-			
-			self.numeroImage = self.numeroImage+1
-			
-			if self.numeroImage == Boo.sequences[self.numeroSequence][1]:
-				if Boo.sequences[self.numeroSequence][3]:
-					self.mort = True
-				if Boo.sequences[self.numeroSequence][2]:
-					self.numeroImage = 0
-				else:
-					self.numeroImage = self.numeroImage-1
-	
-# 0 : tire la langue
-# 1 : fait boo
-# 2 : bouche fermée
-# 3 : meurt
-	def setSequence(self,n):
-		if self.numeroSequence != n:
-			self.numeroImage = 0
-			self.numeroSequence = n
-	
-	def meurt(self):
-		self.directioncourante = 0
-		self.setSequence(3)
+            self.rect = pygame.Rect(
+                self.initialrect.x+incx, self.initialrect.y+incy, 16, 16)
+            if self.angle > 0 and self.angle < 180:
+                self.flip = True
+            else:
+                self.flip = False
 
-	def estMort(self):
-		return self.mort
+            n = Boo.sequences[self.next_num][0]+self.img_next
+            self.image = Boo.spritesheet.subsurface(
+                pygame.Rect(n % 20*16, n//20*32, 16, 16))
+            if self.flip:
+                self.image = pygame.transform.flip(self.image, True, False)
 
-	def estTouche(self):
-		self.meurt()
+            self.img_next = self.img_next+1
 
-	def setPosition(self, x, y):
-		self.rect = pygame.Rect(x, y, 16, 16)
-		self.initialrect = pygame.Rect(x, y, 16, 16)
+            if self.img_next == Boo.sequences[self.next_num][1]:
+                if Boo.sequences[self.next_num][3]:
+                    self.dead = True
+                if Boo.sequences[self.next_num][2]:
+                    self.img_next = 0
+                else:
+                    self.img_next = self.img_next-1
 
-	# Position courante du sprite pour les tests de collision
-	def getPosition(self):
-		return self.rect
+    def set_sequence(self, n):
+        if self.next_num != n:
+            self.img_next = 0
+            self.next_num = n
 
-	#    8  1  2
-	#    7  0  3
-	#    6  5  4
-	def getDirection(self):
-		return self.directioncourante
+    def kill(self):
+        self.curr_direction = 0
+        self.set_sequence(3)
 
+    def has_died(self):
+        return self.dead
+
+    def has_collided(self):
+        self.kill()
+
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, 16, 16)
+        self.initialrect = pygame.Rect(x, y, 16, 16)
+
+    def get_position(self):
+        return self.rect
+
+    def get_direction(self):
+        return self.curr_direction

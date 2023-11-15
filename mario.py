@@ -1,206 +1,179 @@
 import pygame
 
-# Sequences:
-# 0 : position d'attente
-# 1 : Regarde en haut
-# 2 : s'accroupie
-# 3 : Marche
-# 4 : Saute	
-# 5 : Collision	
+
 class Mario(pygame.sprite.Sprite):
+    curr_direction = 0
+    is_jumpings = False
+    is_injured = False
 
-	# Variable qui contient la direction courante du sprite
-	#    8  1  2
-	#    7  0  3
-	#    6  5  4
-	directioncourante = 0
-	isjumpingState = False
-	isInjured = False
+    vel_x = 0
+    vel_y = 0
+    acl_x = 0
+    acl_y = 0
+    prev_position = pygame.Rect((0, 0), (0, 0))
 
-	velocitex = 0
-	velocitey = 0
-	accelerationx = 0
-	accelerationy = 0
-	positionprecedente = pygame.Rect((0,0),(0,0))
+    obstacles = []
+    playing_field = pygame.Rect((0, 0), (0, 0))
 
-	obstacles = list()
-	playfield = pygame.Rect((0,0),(0,0))
+    spritesheet = pygame.image.load("./levels/Sprites/Mario.png")
+    sequences = [(0, 1, False), (1, 1, False), (2, 1, False),
+                 (3, 3, True), (6, 1, False), (7, 1, False)]
 
-	spriteSheet = pygame.image.load("./levels/Sprites/Mario.png")
-	sequences = [(0,1,False),(1,1,False),(2,1,False),(3,3,True),(6,1,False),(7,1,False)]
+    def __init__(self, FPS, playing_field, obstacles):
+        pygame.sprite.Sprite.__init__(self)
 
-	# Constructeur de la classe
-	# FPS: le nombre d'images par secondes (pour les animations)
-	# playfield : Rect, La taille du playfield (pour le clipping)
-	# Obstacles : List(Rect), Les obstacles sous la forme d'une liste de Rect pour la détection de collision avec le décor
-	def __init__(self, FPS, playfield, obstacles):
-		pygame.sprite.Sprite.__init__(self)
+        self.spritesheet.convert_alpha()
 
-		self.spriteSheet.convert_alpha()
+        self.sonSaut = pygame.mixer.Sound("sounds/saut.wav")
 
-		self.sonSaut = pygame.mixer.Sound("sounds/saut.wav")
+        self.image = Mario.spritesheet.subsurface(pygame.Rect(0, 0, 16, 32))
+        self.rect = pygame.Rect(0, 0, 16, 32)
+        self.rect.bottom = 32
 
-		self.image = Mario.spriteSheet.subsurface(pygame.Rect(0,0,16,32))
-		self.rect = pygame.Rect(0,0,16,32)
-		self.rect.bottom = 32
+        self.next_num = 0
+        self.img_next = 0
+        self.flip = True
 
-		self.numeroSequence = 0
-		self.numeroImage = 0
-		self.flip = True
+        self.time_dt = 0
+        self.speed = int(round(160/FPS))
 
-		self.deltaTime = 0
-		self.vitesse = int(round(160/FPS))
-			
-		self.playfield = playfield
-		self.obstacles = obstacles
+        self.playing_field = playing_field
+        self.obstacles = obstacles
 
-	def update(self,time):
-		self.deltaTime = self.deltaTime + time
-		
+    def update(self, time):
+        self.time_dt = self.time_dt + time
 
-		# on sauvegarde la position courante pour revenir en arriere en cas de collision
-		self.positionprecedente = pygame.Rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
+        self.prev_position = pygame.Rect(
+            self.rect.x, self.rect.y, self.rect.width, self.rect.height)
 
-		# on met a jour la position en fonction de la direction
-		if self.directioncourante == 2: # en haut a droite
-			self.rect = self.rect.move(self.vitesse,-self.vitesse).clamp(self.playfield)
-			self.flip = True
-		elif self.directioncourante == 3: # a droite
-			self.rect = self.rect.move(self.vitesse,0).clamp(self.playfield)
-			self.flip = True
-		elif self.directioncourante == 4: # en bas a droite
-			self.rect = self.rect.move(self.vitesse,self.vitesse).clamp(self.playfield)
-			self.flip = True
-		elif self.directioncourante == 5: # en bas
-			self.rect = self.rect.move(0,self.vitesse).clamp(self.playfield)
-			self.flip = True
-		elif self.directioncourante == 6: # en bas a gauche
-			self.rect = self.rect.move(-self.vitesse,self.vitesse).clamp(self.playfield)
-			self.flip = False
-		elif self.directioncourante == 7: # a gauche
-			self.rect = self.rect.move(-self.vitesse,0).clamp(self.playfield)
-			self.flip = False
-		elif self.directioncourante == 8: # en haut a gauche
-			self.rect = self.rect.move(-self.vitesse,-self.vitesse).clamp(self.playfield)
-			self.flip = False
-		elif self.directioncourante == 1: # en haut
-			self.rect = self.rect.move(0,-self.vitesse).clamp(self.playfield)
-			self.flip = True
+        if self.curr_direction == 2:
+            self.rect = self.rect.move(
+                self.speed, -self.speed).clamp(self.playing_field)
+            self.flip = True
+        elif self.curr_direction == 3:
+            self.rect = self.rect.move(self.speed, 0).clamp(self.playing_field)
+            self.flip = True
+        elif self.curr_direction == 4:
+            self.rect = self.rect.move(
+                self.speed, self.speed).clamp(self.playing_field)
+            self.flip = True
+        elif self.curr_direction == 5:
+            self.rect = self.rect.move(0, self.speed).clamp(self.playing_field)
+            self.flip = True
+        elif self.curr_direction == 6:
+            self.rect = self.rect.move(-self.speed,
+                                       self.speed).clamp(self.playing_field)
+            self.flip = False
+        elif self.curr_direction == 7:
+            self.rect = self.rect.move(-self.speed, 0).clamp(self.playing_field)
+            self.flip = False
+        elif self.curr_direction == 8:
+            self.rect = self.rect.move(-self.speed, -
+                                       self.speed).clamp(self.playing_field)
+            self.flip = False
+        elif self.curr_direction == 1:
+            self.rect = self.rect.move(0, -self.speed).clamp(self.playing_field)
+            self.flip = True
 
-		# on gere la velocité
-		self.rect = self.rect.move(self.velocitex,self.velocitey).clamp(self.playfield)
-		self.velocitex += self.accelerationx
-		self.velocitey += self.accelerationy
+        self.rect = self.rect.move(
+            self.vel_x, self.vel_y).clamp(self.playing_field)
+        self.vel_x += self.acl_x
+        self.vel_y += self.acl_y
 
-		# on teste les collisions avec le décor
-		if self.rect.collidelist(self.obstacles) != -1:
-			self.collision()
+        if self.rect.collidelist(self.obstacles) != -1:
+            self.collision()
 
-		# on gère la gravité: si mario est dans le vide on le fait tomber doucement
-		if not self.isJumping():
-			for i in range(0,4):
-				if self.rect.move(0,1).collidelist(self.obstacles) == -1:
-					self.rect = self.rect.move(0, 1).clamp(self.playfield) # on le descend d'un pixel si il n'a pas d'obstacle sous lui
-				else:
-					break
+        if not self.get_isjumping():
+            for i in range(0, 4):
+                if self.rect.move(0, 1).collidelist(self.obstacles) == -1:
+                    self.rect = self.rect.move(0, 1).clamp(self.playing_field)
+                else:
+                    break
 
-			# on calcule l'image à afficher
-		if self.deltaTime>=50:
-			self.deltaTime = 0
-			n = Mario.sequences[self.numeroSequence][0]+self.numeroImage
-			self.image = Mario.spriteSheet.subsurface(pygame.Rect(n%64*16,n//64*32,16,32))
-			if self.flip:
-				self.image = pygame.transform.flip(self.image,True,False)
-			
-			self.numeroImage = self.numeroImage+1
-			
-			if self.numeroImage == Mario.sequences[self.numeroSequence][1]:
-				if Mario.sequences[self.numeroSequence][2]:
-					self.numeroImage = 0
-				else:
-					self.numeroImage = self.numeroImage-1
-	
-	# 0 : position d'attente
-	# 1 : Regarde en haut
-	# 2 : s'accroupie
-	# 3 : Marche
-	# 4 : Saute	
-	def setSequence(self,n):
-		if self.numeroSequence != n:
-			self.numeroImage = 0
-			self.numeroSequence = n
-	
-	def goRight(self):
-		self.directioncourante = 3
-		self.setSequence(3)
+        if self.time_dt >= 50:
+            self.time_dt = 0
+            n = Mario.sequences[self.next_num][0]+self.img_next
+            self.image = Mario.spritesheet.subsurface(
+                pygame.Rect(n % 64*16, n//64*32, 16, 32))
+            if self.flip:
+                self.image = pygame.transform.flip(self.image, True, False)
 
-	def stopRight(self):
-		self.directioncourante = 0
-		self.setSequence(0)
+            self.img_next = self.img_next+1
 
-	def jump(self):
-		if not self.isjumpingState: # si il n'est pas deja en train de sauter
-			self.isjumpingState = True
-			self.velocitey = -12
-			self.accelerationy = 1.5
-			self.setSequence(4)
+            if self.img_next == Mario.sequences[self.next_num][1]:
+                if Mario.sequences[self.next_num][2]:
+                    self.img_next = 0
+                else:
+                    self.img_next = self.img_next-1
 
-	# retourne True si c'est un nouveau dommage, False si un dommage est deja en cours de traitement
-	def injured(self):
-		if not self.isInjured:
-			self.isInjured = True
-			self.isjumpingState = True
-			self.velocitey = -6
-			self.accelerationy = 0.5
-			self.setSequence(5)
-			self.sonSaut.play()
-			return True
-		else:
-			return False
+    def set_sequence(self, n):
+        if self.next_num != n:
+            self.img_next = 0
+            self.next_num = n
 
-	def goLeft(self):
-		self.directioncourante = 7
-		self.setSequence(3)
+    def move_right(self):
+        self.curr_direction = 3
+        self.set_sequence(3)
 
-	def stopLeft(self):
-		self.directioncourante = 0
-		self.setSequence(0)
+    def stopr(self):
+        self.curr_direction = 0
+        self.set_sequence(0)
 
-	def collision(self):
-		# on reinitialise la position courante du sprite a la position precedente
-		self.rect = pygame.Rect(self.positionprecedente.x, self.positionprecedente.y, self.positionprecedente.width, self.positionprecedente.height)
+    def jump(self):
+        if not self.is_jumpings:
+            self.is_jumpings = True
+            self.vel_y = -12
+            self.acl_y = 1.5
+            self.set_sequence(4)
 
-		# on arrete la chute
-		if self.isjumpingState:
-			self.velocitex = 0
-			self.accelerationx = 0
-			self.velocitey = 0
-			self.accelerationy = 0
-			self.isjumpingState = False
-			if self.directioncourante == 0:
-				self.setSequence(0)
-			else: 
-				self.setSequence(3)
+    def injured(self):
+        if not self.is_injured:
+            self.is_injured = True
+            self.is_jumpings = True
+            self.vel_y = -6
+            self.acl_y = 0.5
+            self.set_sequence(5)
+            self.sonSaut.play()
+            return True
+        else:
+            return False
 
-		# si le saut est consécutif a un dommage, on reactive le compteur de dommage
-		self.isInjured = False
+    def move_left(self):
+        self.curr_direction = 7
+        self.set_sequence(3)
 
-	def setPosition(self, x, y):
-		self.rect = pygame.Rect(x, y, 16, 32)
+    def stopl(self):
+        self.curr_direction = 0
+        self.set_sequence(0)
 
-	# Position courante du sprite pour les tests de collision
-	def getPosition(self):
-		return self.rect
+    def collision(self):
+        self.rect = pygame.Rect(self.prev_position.x, self.prev_position.y,
+                                self.prev_position.width, self.prev_position.height)
 
-	# Rectangle qui represente une ligne sous le sprite pour les tests de collision
-	def getBottomRect(self):
-		return pygame.Rect((self.rect.x, self.rect.y+32), (self.rect.width, 1))
+        if self.is_jumpings:
+            self.vel_x = 0
+            self.acl_x = 0
+            self.vel_y = 0
+            self.acl_y = 0
+            self.is_jumpings = False
+            if self.curr_direction == 0:
+                self.set_sequence(0)
+            else:
+                self.set_sequence(3)
 
-	#    8  1  2
-	#    7  0  3
-	#    6  5  4
-	def getDirection(self):
-		return self.directioncourante
+        self.is_injured = False
 
-	def isJumping(self):
-		return self.isjumpingState
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, 16, 32)
+
+    def get_position(self):
+        return self.rect
+
+    def get_bottom(self):
+        return pygame.Rect((self.rect.x, self.rect.y+32), (self.rect.width, 1))
+
+    def get_direction(self):
+        return self.curr_direction
+
+    def get_isjumping(self):
+        return self.is_jumpings

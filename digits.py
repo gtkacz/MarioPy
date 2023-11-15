@@ -1,47 +1,44 @@
 import pygame
 
+
 class Digits(pygame.sprite.Sprite):
+    spritesheet = pygame.image.load("./levels/Sprites/digits.png")
 
-	spriteSheet = pygame.image.load("./levels/Sprites/digits.png")
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
 
-	# Constructeur de la classe
-	# FPS: le nombre d'images par secondes (pour les animations)
-	def __init__(self):
-		pygame.sprite.Sprite.__init__(self)
+        self.spritesheet.convert_alpha()
 
-		self.spriteSheet.convert_alpha()
+        self.image = Digits.spritesheet.subsurface(pygame.Rect(0, 0, 52, 52))
+        self.rect = pygame.Rect(0, 0, 52, 52)
+        self.rect.bottom = 52
+        self.img_next = 0
 
-		self.image = Digits.spriteSheet.subsurface(pygame.Rect(0,0,52,52))
-		self.rect = pygame.Rect(0,0,52,52)
-		self.rect.bottom = 52
-		self.numeroImage = 0
+    def update(self, time):
+        index = self.img_next
+        if (index < 0):
+            index = 0
+        if (index > 9):
+            index = 9
+        self.image = Digits.spritesheet.subsurface(
+            pygame.Rect(index*52, 0, 52, 52))
 
-	def update(self,time):
-		# on calcule l'image à afficher
-		index = self.numeroImage
-		if(index<0):
-			index = 0
-		if(index>9):
-			index = 9
-		self.image = Digits.spriteSheet.subsurface(pygame.Rect(index*52,0,52,52))
-	
-	
-	def setPosition(self, x, y):
-		self.rect = pygame.Rect(x, y, 16, 16)
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, 16, 16)
 
-	def getPosition(self):
-		return self.rect
+    def get_position(self):
+        return self.rect
 
-	def setDigit(self, number):
-		self.numeroImage = number
-	
-	def getDigit(self):
-		return self.numeroImage
+    def set_digit(self, number):
+        self.img_next = number
 
-	def incDigit(self):
-		self.numeroImage += 1
-		return self.numeroImage
+    def get_digit(self):
+        return self.img_next
 
-	def decDigit(self):
-		self.numeroImage -= 1
-		return self.numeroImage
+    def increment_digit(self):
+        self.img_next += 1
+        return self.img_next
+
+    def decrease_digit(self):
+        self.img_next -= 1
+        return self.img_next

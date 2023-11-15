@@ -1,70 +1,62 @@
 import pygame
 
+
 class PoisonIvy(pygame.sprite.Sprite):
-	PIECEJAUNE = 0
-	PIECEARGENT = 1
-	QUESTIONBOX = 2
-	BOX = 3
-	POMMEROUGE = 4
-	POMMEROSE = 5
-	POMMEVERT = 6
-	FLEURNOIR = 7
-	NOTEMUSIQUE = 8
+    YELLOW = 0
+    SILVER = 1
+    QUESTIONBOX = 2
+    BOX = 3
+    APPLE = 4
+    APPLE2 = 5
+    APPLE3 = 6
+    FLOWER = 7
+    MUSIC = 8
 
-	spriteSheet = pygame.image.load("./levels/Sprites/AnimatedTiles.png")
-	# piece jaune
-	# piece argentée
-	# questionbox
-	# box
-	# pomme rouge
-	# pomme rose
-	# pomme vert
-	# fleur noir
-	# note musique
-	sequences = [(0,4,True),(4,4,True),(8,4,True),(12,4,True),(16,3,True),(19,3,True),(22,3,True),(29,2,True),(31,3,True)]
+    spritesheet = pygame.image.load("./levels/Sprites/AnimatedTiles.png")
+    sequences = [(0, 4, True), (4, 4, True), (8, 4, True), (12, 4, True),
+                 (16, 3, True), (19, 3, True), (22, 3, True), (29, 2, True), (31, 3, True)]
 
-	# Constructeur de la classe
-	# FPS: le nombre d'images par secondes (pour les animations)
-	def __init__(self, FPS, playfield, obstacles):
-		pygame.sprite.Sprite.__init__(self)
+    def __init__(self, FPS, playing_field, obstacles):
+        pygame.sprite.Sprite.__init__(self)
 
-		self.spriteSheet.convert_alpha()
+        self.spritesheet.convert_alpha()
 
-		self.image = PoisonIvy.spriteSheet.subsurface(pygame.Rect(0,0,16,16))
-		self.rect = pygame.Rect(0,0,16,16)
-		self.rect.bottom = 16
+        self.image = PoisonIvy.spritesheet.subsurface(
+            pygame.Rect(0, 0, 16, 16))
+        self.rect = pygame.Rect(0, 0, 16, 16)
+        self.rect.bottom = 16
 
-		self.numeroSequence = 7
-		self.numeroImage = 0
+        self.next_num = 7
+        self.img_next = 0
 
-		self.deltaTime = 0
+        self.time_dt = 0
 
-	def update(self,time):
-		self.deltaTime = self.deltaTime + time
-		
-		if self.deltaTime>=500:
-			self.deltaTime = 0
+    def update(self, time):
+        self.time_dt = self.time_dt + time
 
-			# on calcule l'image à afficher
-			n = PoisonIvy.sequences[self.numeroSequence][0]+self.numeroImage
-			self.image = PoisonIvy.spriteSheet.subsurface(pygame.Rect(n%40*16,n//40*16,16,16))
-			
-			self.numeroImage = self.numeroImage+1
-			
-			if self.numeroImage == PoisonIvy.sequences[self.numeroSequence][1]:
-				if PoisonIvy.sequences[self.numeroSequence][2]:
-					self.numeroImage = 0
-				else:
-					self.numeroImage = self.numeroImage-1
-	
-	def setPosition(self, x, y):
-		self.rect = pygame.Rect(x, y, 16, 16)
+        if self.time_dt >= 500:
+            self.time_dt = 0
 
-	def getPosition(self):
-		return self.rect
+            n = PoisonIvy.sequences[self.next_num][0]+self.img_next
+            self.image = PoisonIvy.spritesheet.subsurface(
+                pygame.Rect(n % 40*16, n//40*16, 16, 16))
 
-	def estTouche(self):
-		return
+            self.img_next = self.img_next+1
 
-	def estMort(self):
-		return False
+            if self.img_next == PoisonIvy.sequences[self.next_num][1]:
+                if PoisonIvy.sequences[self.next_num][2]:
+                    self.img_next = 0
+                else:
+                    self.img_next = self.img_next-1
+
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, 16, 16)
+
+    def get_position(self):
+        return self.rect
+
+    def has_collided(self):
+        return
+
+    def has_died(self):
+        return False

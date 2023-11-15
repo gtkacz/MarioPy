@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-up" width="512" height="54" tilewidth="8" tileheight="8" infinite="0" nextlayerid="29" nextobjectid="49">
- <tileset firstgid="1" name="background" tilewidth="8" tileheight="8" tilecount="3456" columns="64">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-up" width="512" height="54" tile_width="8" tile_height="8" infinite="0" nextlayerid="29" nextobjectid="49">
+ <tileset firstgid="1" name="background" tile_width="8" tile_height="8" tilecount="3456" columns="64">
   <image source="Tileset/background1.png" width="512" height="432"/>
  </tileset>
- <tileset firstgid="3457" name="ground1" tilewidth="8" tileheight="8" tilecount="1344" columns="32">
+ <tileset firstgid="3457" name="ground1" tile_width="8" tile_height="8" tilecount="1344" columns="32">
   <image source="Tileset/ground1col.png" trans="ff00ff" width="256" height="336"/>
  </tileset>
- <tileset firstgid="4801" name="ground2" tilewidth="8" tileheight="8" tilecount="704" columns="32">
+ <tileset firstgid="4801" name="ground2" tile_width="8" tile_height="8" tilecount="704" columns="32">
   <image source="Tileset/ground2.png" width="256" height="176"/>
  </tileset>
- <tileset firstgid="5505" name="tree1" tilewidth="8" tileheight="8" tilecount="1000" columns="100">
+ <tileset firstgid="5505" name="tree1" tile_width="8" tile_height="8" tilecount="1000" columns="100">
   <image source="Tileset/tree1col.png" trans="ff00ff" width="800" height="80"/>
  </tileset>
- <tileset firstgid="6505" name="tree2" tilewidth="8" tileheight="8" tilecount="192" columns="32">
+ <tileset firstgid="6505" name="tree2" tile_width="8" tile_height="8" tilecount="192" columns="32">
   <image source="Tileset/tree2.png" width="256" height="48"/>
  </tileset>
- <tileset firstgid="6697" name="nuages" tilewidth="8" tileheight="8" tilecount="8" columns="4">
+ <tileset firstgid="6697" name="nuages" tile_width="8" tile_height="8" tilecount="8" columns="4">
   <image source="Tileset/cloud3.png" trans="ff00ff" width="32" height="16"/>
  </tileset>
- <tileset firstgid="6705" name="Animated Tiles" tilewidth="16" tileheight="16" tilecount="80" columns="40">
+ <tileset firstgid="6705" name="Animated Tiles" tile_width="16" tile_height="16" tilecount="80" columns="40">
   <image source="Sprites/AnimatedTiles.png" width="640" height="32"/>
  </tileset>
- <tileset firstgid="6785" name="tortue" tilewidth="16" tileheight="32" tilecount="80" columns="20">
+ <tileset firstgid="6785" name="koopa" tile_width="16" tile_height="32" tilecount="80" columns="20">
   <image source="Sprites/Turtle.png" width="320" height="128"/>
  </tileset>
- <tileset firstgid="6865" name="mario" tilewidth="16" tileheight="32" tilecount="64" columns="64">
+ <tileset firstgid="6865" name="mario" tile_width="16" tile_height="32" tilecount="64" columns="64">
   <image source="Sprites/Mario.png" width="1024" height="32"/>
  </tileset>
- <tileset firstgid="6929" name="water" tilewidth="16" tileheight="48" tilecount="4" columns="4">
+ <tileset firstgid="6929" name="water" tile_width="16" tile_height="48" tilecount="4" columns="4">
   <image source="Sprites/water.png" width="64" height="48"/>
  </tileset>
- <tileset firstgid="6933" name="boo" tilewidth="16" tileheight="16" tilecount="10" columns="10">
+ <tileset firstgid="6933" name="boo" tile_width="16" tile_height="16" tilecount="10" columns="10">
   <image source="Sprites/boo.png" width="160" height="16"/>
  </tileset>
- <tileset firstgid="6943" name="pipe" tilewidth="8" tileheight="8" tilecount="32" columns="4">
+ <tileset firstgid="6943" name="pipe" tile_width="8" tile_height="8" tilecount="32" columns="4">
   <image source="Tileset/pipe1.png" trans="ff00ff" width="32" height="64"/>
  </tileset>
- <tileset firstgid="6975" name="pieu" tilewidth="16" tileheight="80" tilecount="19" columns="19">
+ <tileset firstgid="6975" name="pieu" tile_width="16" tile_height="80" tilecount="19" columns="19">
   <image source="Sprites/stake.png" width="304" height="80"/>
  </tileset>
  <layer id="1" name="fond" width="512" height="54" locked="1">
@@ -793,7 +793,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="10" name="tortues" width="512" height="54" locked="1">
+ <layer id="10" name="koopas" width="512" height="54" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1172,7 +1172,7 @@
   <object id="44" x="2736" y="336" width="24" height="8"/>
   <object id="47" x="4056" y="296" width="8" height="48"/>
  </objectgroup>
- <objectgroup id="23" name="mort" locked="1">
+ <objectgroup id="23" name="dead" locked="1">
   <object id="29" x="1584" y="360" width="1152" height="32"/>
  </objectgroup>
  <objectgroup id="26" name="fin" locked="1">

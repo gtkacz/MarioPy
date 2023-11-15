@@ -1,59 +1,57 @@
 import pygame
 
+
 class Stake(pygame.sprite.Sprite):
-	spriteSheet = pygame.image.load("./levels/Sprites/stake.png")
-	NBIMAGES = 19
-	TEMPSPAUSE = 5000 # temps entre 2 montées du pic en ms
+    spritesheet = pygame.image.load("./levels/Sprites/stake.png")
+    NBIMAGES = 19
+    TEMPSPAUSE = 5000
 
-	# Constructeur de la classe
-	# FPS: le nombre d'images par secondes (pour les animations)
-	def __init__(self, FPS, playfield, obstacles):
-		pygame.sprite.Sprite.__init__(self)
+    def __init__(self, FPS, playing_field, obstacles):
+        pygame.sprite.Sprite.__init__(self)
 
-		self.spriteSheet.convert_alpha()
+        self.spritesheet.convert_alpha()
 
-		self.image = Stake.spriteSheet.subsurface(pygame.Rect(0,0,16,80))
-		self.rect = pygame.Rect(0,0,16,80)
-		self.rect.bottom = 80
+        self.image = Stake.spritesheet.subsurface(pygame.Rect(0, 0, 16, 80))
+        self.rect = pygame.Rect(0, 0, 16, 80)
+        self.rect.bottom = 80
 
-		self.numeroImage = 0
-		self.inc = 0
+        self.img_next = 0
+        self.inc = 0
 
-		self.deltaTime = 0
-		self.deltaTimeArmement = 0
-		self.FPS = FPS
+        self.time_dt = 0
+        self.time_dt_next = 0
+        self.FPS = FPS
 
-	def update(self,time):
-		self.deltaTime = self.deltaTime + time
-		self.deltaTimeArmement = self.deltaTimeArmement + time
-		
-		# Déclenchement de l'animation du pic
-		if(self.deltaTimeArmement>self.TEMPSPAUSE):
-			self.deltaTimeArmement = 0
-			self.inc = 1 # on déclenche le pic
+    def update(self, time):
+        self.time_dt = self.time_dt + time
+        self.time_dt_next = self.time_dt_next + time
 
-		if self.deltaTime>=50:
-			self.deltaTime = 0
+        if (self.time_dt_next > self.TEMPSPAUSE):
+            self.time_dt_next = 0
+            self.inc = 1
 
-			# on calcule l'image à afficher
-			self.image = Stake.spriteSheet.subsurface(pygame.Rect(self.numeroImage*16,0,16,80))
+        if self.time_dt >= 50:
+            self.time_dt = 0
 
-			self.numeroImage = self.numeroImage+self.inc # on fait une animation qui consiste a faire monter et descendre le pic
-			if(self.numeroImage<0):
-				self.numeroImage = 0
-				self.inc = 0
-			elif(self.numeroImage>=self.NBIMAGES):
-				self.numeroImage = self.NBIMAGES-1
-				self.inc = -self.inc
+            self.image = Stake.spritesheet.subsurface(
+                pygame.Rect(self.img_next*16, 0, 16, 80))
 
-	def setPosition(self, x, y):
-		self.rect = pygame.Rect(x, y, 16, 16)
+            self.img_next = self.img_next+self.inc
+            if (self.img_next < 0):
+                self.img_next = 0
+                self.inc = 0
+            elif (self.img_next >= self.NBIMAGES):
+                self.img_next = self.NBIMAGES-1
+                self.inc = -self.inc
 
-	def getPosition(self):
-		return self.rect
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, 16, 16)
 
-	def estTouche(self):
-		return
+    def get_position(self):
+        return self.rect
 
-	def estMort(self):
-		return False
+    def has_collided(self):
+        return
+
+    def has_died(self):
+        return False
