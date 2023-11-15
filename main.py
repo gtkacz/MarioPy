@@ -28,20 +28,20 @@ def main():
     HEIGHT = 432
     FPS = 60
     MUSIC = True
-    NBLIFE = 9
+    MAX_LIFE = 9
     TITLE = "Mario Py"
 
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode(
-        (WIDTH, HEIGHT), pygame.FULLSCREEN | pygame.DOUBLEBUF, vsync=1)
+        (WIDTH, HEIGHT), pygame.DOUBLEBUF, vsync=1)
     pygame.display.set_caption(TITLE)
 
     tm = pytmx.load_pygame('levels/level1.tmx')
-    tile_width = tm.tile_width
-    tile_height = tm.tile_height
+    tilewidth = tm.tilewidth
+    tileheight = tm.tileheight
     playing_field = pygame.Rect(
-        (0, 0), (tm.width*tile_width, tm.height*tile_height))
+        (0, 0), (tm.width*tilewidth, tm.height*tileheight))
 
     while True:
         position = 0
@@ -58,25 +58,25 @@ def main():
                                          object.width, object.height))
 
         dead_zones = []
-        mortLayer = tm.get_layer_by_name("dead")
-        for dead in mortLayer:
+        deadzone = tm.get_layer_by_name("dead")
+        for dead in deadzone:
             dead_zones.append(pygame.Rect(
                 dead.x, dead.y, dead.width, dead.height))
 
         end_layers = []
-        endl = tm.get_layer_by_name("fin")
-        for fin in endl:
-            end_layers.append(pygame.Rect(fin.x, fin.y, fin.width, fin.height))
+        endl = tm.get_layer_by_name("end")
+        for end in endl:
+            end_layers.append(pygame.Rect(end.x, end.y, end.width, end.height))
 
         objets = []
-        add_obj("piecesjaunes", GameObject.YELLOW)
-        add_obj("piecesargentees", GameObject.SILVER)
+        add_obj("yellow", GameObject.YELLOW)
+        add_obj("silver", GameObject.SILVER)
         add_obj("questionbox", GameObject.QUESTIONBOX)
         add_obj("box", GameObject.BOX)
-        add_obj("pommerouge", GameObject.APPLE)
-        add_obj("pommeverte", GameObject.APPLE3)
-        add_obj("pommerose", GameObject.APPLE2)
-        add_obj("notemusique", GameObject.MUSIC)
+        add_obj("apple", GameObject.APPLE)
+        add_obj("apple3", GameObject.APPLE3)
+        add_obj("apple2", GameObject.APPLE2)
+        add_obj("music", GameObject.MUSIC)
 
         watersprites = []
         layer = tm.get_layer_by_name("water")
@@ -117,7 +117,7 @@ def main():
 
         health = Digits()
         health.set_position(WIDTH-52-20, 14)
-        health.set_digit(NBLIFE)
+        health.set_digit(MAX_LIFE)
 
         score = Score()
         score.set_position(0, 14)
@@ -252,11 +252,11 @@ def main():
             for x, y, image in layer.tiles():
                 buffer.blit(image, (x*8+position/2, y*8))
 
-            layer = tm.get_layer_by_name("arbres")
+            layer = tm.get_layer_by_name("trees")
             for x, y, image in layer.tiles():
                 buffer.blit(image, (x*8+position/4, y*8))
 
-            layer = tm.get_layer_by_name("nuages")
+            layer = tm.get_layer_by_name("clouds")
             for x, y, image in layer.tiles():
                 buffer.blit(image, (x*8+position/2-counter/16, y*8))
 

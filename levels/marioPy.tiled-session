@@ -55,7 +55,7 @@
         "C:/Users/sfaivre/OneDrive - BRAINWAVE/Mes Documents/perso/sfaivre/Tiled/mario1.tmx#ground2": {
             "scaleInDock": 1.5
         },
-        "C:/Users/sfaivre/OneDrive - BRAINWAVE/Mes Documents/perso/sfaivre/Tiled/mario1.tmx#nuages": {
+        "C:/Users/sfaivre/OneDrive - BRAINWAVE/Mes Documents/perso/sfaivre/Tiled/mario1.tmx#clouds": {
             "scaleInDock": 1
         },
         "C:/Users/sfaivre/OneDrive - BRAINWAVE/Mes Documents/perso/sfaivre/Tiled/mario1.tmx#tree1": {
@@ -104,10 +104,10 @@
         "level1.tmx#mario": {
             "scaleInDock": 1
         },
-        "level1.tmx#nuages": {
+        "level1.tmx#clouds": {
             "scaleInDock": 1
         },
-        "level1.tmx#pieu": {
+        "level1.tmx#stake": {
             "scaleInDock": 1
         },
         "level1.tmx#pipe": {
@@ -132,8 +132,8 @@
     "map.height": 24,
     "map.lastUsedFormat": "tmx",
     "map.renderOrder": null,
-    "map.tile_height": 20,
-    "map.tile_width": 42,
+    "map.tileheight": 20,
+    "map.tilewidth": 42,
     "map.width": 15,
     "openFiles": [
         "C:/Users/sfaivre/OneDrive - BRAINWAVE/Mes Documents/perso/sfaivre/ArkanoPy/levels/level1.tmx",
