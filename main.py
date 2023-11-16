@@ -1,17 +1,15 @@
-import sys
-
 import pygame
 import pytmx
 
-from boo import Boo
-from digits import Digits
-from gameobject import GameObject
-from koopa import Koopa
-from mario import Mario
-from poisonivy import PoisonIvy
-from score import Score
-from stake import Stake
-from water import Water
+from src.boo import Boo
+from src.digits import Digits
+from src.gameobject import GameObject
+from src.koopa import Koopa
+from src.mario import Mario
+from src.poisonivy import PoisonIvy
+from src.score import Score
+from src.stake import Stake
+from src.water import Water
 
 
 def main():
@@ -19,10 +17,10 @@ def main():
         layer = tm.get_layer_by_name(layer)
 
         for x, y, image in layer.tiles():
-            objet = GameObject(FPS)
-            objet.set_sequence(obj)
-            objet.set_position(x*8, y*8-8)
-            objets.append(objet)
+            obj = GameObject(FPS)
+            obj.set_sequence(obj)
+            obj.set_position(x*8, y*8-8)
+            objs.append(obj)
 
     WIDTH = 640
     HEIGHT = 432
@@ -68,7 +66,7 @@ def main():
         for end in endl:
             end_layers.append(pygame.Rect(end.x, end.y, end.width, end.height))
 
-        objets = []
+        objs = []
         add_obj("yellow", GameObject.YELLOW)
         add_obj("silver", GameObject.SILVER)
         add_obj("questionbox", GameObject.QUESTIONBOX)
@@ -142,11 +140,11 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(0)
+                    raise SystemExit
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
-                        sys.exit(0)
+                        raise SystemExit
                     elif event.key == pygame.K_SPACE:
                         main_screen = False
 
@@ -162,11 +160,11 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(0)
+                    raise SystemExit
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
-                        sys.exit(0)
+                        raise SystemExit
                     elif event.key == pygame.K_LEFT:
                         mario.move_left()
                     elif event.key == pygame.K_RIGHT:
@@ -187,8 +185,8 @@ def main():
             for opp in opps:
                 opp.update(time)
 
-            for objet in objets:
-                objet.update(time)
+            for obj in objs:
+                obj.update(time)
 
             if mario.rect.collidelist(dead_zones) != -1:
                 health.set_digit(0)
@@ -196,11 +194,11 @@ def main():
             if mario.rect.collidelist(end_layers) != -1:
                 levelfinished = True
 
-            collided_obj = pygame.sprite.spritecollideany(mario, objets)
+            collided_obj = pygame.sprite.spritecollideany(mario, objs)
             if collided_obj:
                 collided_obj.collision()
                 score.increment_score(collided_obj.fetch_reward())
-                objets.remove(collided_obj)
+                objs.remove(collided_obj)
 
             collision_opp = pygame.sprite.spritecollideany(
                 mario, opps, pygame.sprite.collide_mask)
@@ -225,13 +223,13 @@ def main():
 
             mariopositionx = mario.get_position().x
             if (mariopositionx-position < 200):
-                MOUVEMENTX = -last_x
+                vel_x = -last_x
             elif (mariopositionx-position > WIDTH-200):
-                MOUVEMENTX = last_x
+                vel_x = last_x
             else:
-                MOUVEMENTX = 0
+                vel_x = 0
 
-            position = position + MOUVEMENTX
+            position = position + vel_x
 
             if position < 0:
                 position = 0
@@ -264,8 +262,8 @@ def main():
             for x, y, image in layer.tiles():
                 buffer.blit(image, (x*8, y*8))
 
-            for objet in objets:
-                buffer.blit(objet.image, objet.rect)
+            for obj in objs:
+                buffer.blit(obj.image, obj.rect)
 
             for opp in opps:
                 buffer.blit(opp.image, opp.rect)
@@ -300,9 +298,9 @@ def main():
         else:
             gameover = pygame.image.load(
                 "static/splashscreens/game over.png").convert_alpha()
-            (gameoverWidth, gameoverHeight) = gameover.get_size()
-            screen.blit(gameover, pygame.Rect((WIDTH-gameoverWidth)/2,
-                        80+(HEIGHT-gameoverHeight)/2, gameoverWidth, gameoverHeight))
+            (finalw, finalh) = gameover.get_size()
+            screen.blit(gameover, pygame.Rect((WIDTH-finalw)/2,
+                        80+(HEIGHT-finalh)/2, finalw, finalh))
             if MUSIC:
                 pygame.mixer.music.load('static/soundtracks/16 - Game Over.mp3')
                 pygame.mixer.music.play()
@@ -317,11 +315,11 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(0)
+                    raise SystemExit
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
-                        sys.exit(0)
+                        raise SystemExit
                     elif event.key == pygame.K_SPACE:
                         main_screen = False
 
