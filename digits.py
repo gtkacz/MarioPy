@@ -2,7 +2,7 @@ import pygame
 
 
 class Digits(pygame.sprite.Sprite):
-    spritesheet = pygame.image.load("./levels/Sprites/digits.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/digits.png")
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)

@@ -12,7 +12,7 @@ class Water(pygame.sprite.Sprite):
     SILVER = 1
     YELLOW = 0
 
-    spritesheet = pygame.image.load("./levels/Sprites/water.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/water.png")
 
     sequences = [(0, 4, True)]
 

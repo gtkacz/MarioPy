@@ -8,7 +8,7 @@ class Boo(pygame.sprite.Sprite):
     obstacles = []
     playing_field = pygame.Rect((0, 0), (0, 0))
 
-    spritesheet = pygame.image.load("./levels/Sprites/boo.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/boo.png")
     sequences = [(0, 2, True, False), (2, 2, True, False),
                  (4, 2, True, False), (6, 4, False, True)]
 

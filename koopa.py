@@ -9,7 +9,7 @@ class Koopa(pygame.sprite.Sprite):
     obstacles = []
     playing_field = pygame.Rect((0, 0), (0, 0))
 
-    spritesheet = pygame.image.load("./levels/Sprites/Turtle.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/Turtle.png")
     sequences = [(0, 1, False, False), (1, 2, True, False), (3, 4, False, True),
                  (7, 2, True, False), (9, 2, True, False), (10, 1, False, False)]
 

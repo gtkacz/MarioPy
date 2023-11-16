@@ -2,7 +2,7 @@ import pygame
 
 
 class Stake(pygame.sprite.Sprite):
-    spritesheet = pygame.image.load("./levels/Sprites/stake.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/stake.png")
     NBIMAGES = 19
     TEMPSPAUSE = 5000
 

@@ -15,7 +15,7 @@ class Mario(pygame.sprite.Sprite):
     obstacles = []
     playing_field = pygame.Rect((0, 0), (0, 0))
 
-    spritesheet = pygame.image.load("./levels/Sprites/Mario.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/Mario.png")
     sequences = [(0, 1, False), (1, 1, False), (2, 1, False),
                  (3, 3, True), (6, 1, False), (7, 1, False)]
 
@@ -24,7 +24,7 @@ class Mario(pygame.sprite.Sprite):
 
         self.spritesheet.convert_alpha()
 
-        self.sonSaut = pygame.mixer.Sound("sounds/saut.wav")
+        self.sonSaut = pygame.mixer.Sound("static/sounds/saut.wav")
 
         self.image = Mario.spritesheet.subsurface(pygame.Rect(0, 0, 16, 32))
         self.rect = pygame.Rect(0, 0, 16, 32)

@@ -37,7 +37,7 @@ def main():
         (WIDTH, HEIGHT), pygame.DOUBLEBUF, vsync=1)
     pygame.display.set_caption(TITLE)
 
-    tm = pytmx.load_pygame('levels/level1.tmx')
+    tm = pytmx.load_pygame('static/levels/level1.tmx')
     tilewidth = tm.tilewidth
     tileheight = tm.tileheight
     playing_field = pygame.Rect(
@@ -49,7 +49,7 @@ def main():
         counter = 0
 
         if MUSIC:
-            pygame.mixer.music.load('soundtracks/01 - Super Mario Bros.mp3')
+            pygame.mixer.music.load('static/soundtracks/01 - Super Mario Bros.mp3')
 
         obstacles = []
         obstacle_layer = tm.get_layer_by_name("obstacles")
@@ -128,7 +128,7 @@ def main():
         if MUSIC:
             pygame.mixer.music.play(loops=-1)
 
-        home_img = pygame.image.load("splashscreens/principal.png").convert()
+        home_img = pygame.image.load("static/splashscreens/principal.png").convert()
         (w, h) = pygame.display.get_surface().get_size()
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, w, h))
         (iw, ih) = home_img.get_size()
@@ -152,7 +152,7 @@ def main():
 
             pygame.display.flip()
 
-        header = pygame.image.load("splashscreens/mariopy.png").convert_alpha()
+        header = pygame.image.load("static/splashscreens/mariopy.png").convert_alpha()
 
         levelfinished = False
         clock = pygame.time.Clock()
@@ -211,7 +211,7 @@ def main():
                     if health.get_digit() == 1:
                         if MUSIC:
                             pygame.mixer.music.load(
-                                'soundtracks/03 - Hurry - Super Mario Bros.mp3')
+                                'static/soundtracks/03 - Hurry - Super Mario Bros.mp3')
                             pygame.mixer.music.play(loops=-1)
 
             for opp in opps:
@@ -290,21 +290,21 @@ def main():
 
         if levelfinished:
             winner = pygame.image.load(
-                "splashscreens/winner.png").convert_alpha()
+                "static/splashscreens/winner.png").convert_alpha()
             (winnerWidth, winnerHeight) = winner.get_size()
             screen.blit(winner, pygame.Rect((WIDTH-winnerWidth)/2, 80 +
                         (HEIGHT-winnerHeight)/2, winnerWidth, winnerHeight))
             if MUSIC:
-                pygame.mixer.music.load('soundtracks/04 - Area Clear.mp3')
+                pygame.mixer.music.load('static/soundtracks/04 - Area Clear.mp3')
                 pygame.mixer.music.play()
         else:
             gameover = pygame.image.load(
-                "splashscreens/game over.png").convert_alpha()
+                "static/splashscreens/game over.png").convert_alpha()
             (gameoverWidth, gameoverHeight) = gameover.get_size()
             screen.blit(gameover, pygame.Rect((WIDTH-gameoverWidth)/2,
                         80+(HEIGHT-gameoverHeight)/2, gameoverWidth, gameoverHeight))
             if MUSIC:
-                pygame.mixer.music.load('soundtracks/16 - Game Over.mp3')
+                pygame.mixer.music.load('static/soundtracks/16 - Game Over.mp3')
                 pygame.mixer.music.play()
 
         pygame.display.flip()

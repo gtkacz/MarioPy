@@ -12,7 +12,7 @@ class GameObject(pygame.sprite.Sprite):
     FLOWER = 7
     MUSIC = 8
 
-    spritesheet = pygame.image.load("./levels/Sprites/AnimatedTiles.png")
+    spritesheet = pygame.image.load("./static/levels/Sprites/AnimatedTiles.png")
     sequences = [(0, 4, True), (4, 4, True), (8, 4, True), (12, 4, True),
                  (16, 3, True), (19, 3, True), (22, 3, True), (29, 2, True), (31, 3, True)]
 
@@ -31,7 +31,7 @@ class GameObject(pygame.sprite.Sprite):
         self.time_dt = 0
         self.speed = int(round(200/FPS))
 
-        self.pickup = pygame.mixer.Sound("sounds/piece.wav")
+        self.pickup = pygame.mixer.Sound("static/sounds/piece.wav")
 
     def update(self, time):
         self.time_dt = self.time_dt + time
