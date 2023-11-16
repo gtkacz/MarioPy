@@ -7,6 +7,7 @@
 
 <p align="center">
     <center>
+        <h2>Built with PyGame</h2>
         <h4>How to play:</h4>
         <code>pip install -r requirements.txt</code><br/>
         <code>python main.py</code>
